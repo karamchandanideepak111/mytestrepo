@@ -41,11 +41,13 @@ jobs:
           fi
           cd sample_test
           git pull origin main
+          git log -1  # Debug output to verify the latest commit
           if [ ! -d "venv" ]; then
             python3 -m venv venv
           fi
           source venv/bin/activate
           pip install -r requirements.txt
+          python3 manage.py cache_clear
           python3 manage.py migrate
           sudo fuser -k 8000/tcp
           nohup python manage.py runserver 0.0.0.0:8000 > server.log 2>&1 &
