@@ -34,10 +34,16 @@ jobs:
         echo "${SSH_PRIVATE_KEY}" > private_key.pem
         chmod 600 private_key.pem
         ssh -o StrictHostKeyChecking=no -i private_key.pem ubuntu@ec2-3-146-35-43.us-east-2.compute.amazonaws.com << 'EOF'
+          if [ ! -d "sample_test" ]; then
+            git clone https://github.com/karamchandanideepak111/mytestrepo.git sample_test
+          fi
           cd sample_test
           git pull origin main
+          if [ ! -d "venv" ]; then
+            python3 -m venv venv
+          fi
           source venv/bin/activate
           pip install -r requirements.txt
-          python manage.py migrate
-          nohup python manage.py runserver 0.0.0.0:8000 &
+          python3 manage.py migrate
+          nohup python3 manage.py runserver 0.0.0.0:8000 &
         EOF
