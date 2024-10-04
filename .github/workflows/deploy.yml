@@ -48,8 +48,8 @@ jobs:
           source venv/bin/activate
           pip install -r requirements.txt
           python3 manage.py migrate
-          sudo fuser -k 8000/tcp
-          nohup python manage.py runserver 0.0.0.0:8000 > server.log 2>&1 &
+          sudo fuser -k 8080/tcp
+          nohup python manage.py runserver 0.0.0.0:8080 > server.log 2>&1 &
           disown
           exit
         EOF
